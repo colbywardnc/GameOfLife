@@ -8,6 +8,7 @@ class GameOfLifeApp:
         self.root.title("Game of Life")
 
         self.game = GameOfLife(20, 20)
+        self.running = False
 
         self.canvas = tk.Canvas(
             root,
@@ -29,6 +30,20 @@ class GameOfLifeApp:
             command=self.reset
         )
         self.reset_button.pack()
+
+        self.start_button = tk.Button(
+            root,
+            text="Start",
+            command=self.start
+        )
+        self.start_button.pack()
+
+        self.pause_button = tk.Button(
+            root,
+            text="Pause",
+            command=self.pause
+        )
+        self.pause_button.pack()
 
         self.canvas.bind("<Button-1>", self.toggle_cell)
 
@@ -83,6 +98,25 @@ class GameOfLifeApp:
 
         # Update the grid to show the empty board.
         self.draw_grid()
+
+    def start(self):
+        # Start the simulation.
+        self.running = True
+
+        # Begin updating the game.
+        self.run_game()
+
+    def run_game(self):
+        # Only continue running if the sim is active.
+        if self.running:
+            self.step()
+
+            # Run again after 200 milliseconds
+            self.root.after(200, self.run_game)
+
+    def pause(self):
+        # Stop the sim from running.
+        self.running = False
 
 root = tk.Tk()
 app = GameOfLifeApp(root)
