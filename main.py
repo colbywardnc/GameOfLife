@@ -10,6 +10,7 @@ class GameOfLifeApp:
         self.game = GameOfLife(20, 20)
         self.running = False
         self.generation = 0
+        self.speed = 200
 
         self.canvas = tk.Canvas(
             root,
@@ -51,6 +52,24 @@ class GameOfLifeApp:
             text="Generation: 0"
         )
         self.generation_label.pack()
+
+        self.speed_label = tk.Label(
+            root,
+            text="Speed: 200 ms"
+        )
+        self.speed_label.pack()
+
+        self.speed_slider = tk.Scale(
+            root,
+            from_=50,
+            to=500,
+            orient="horizontal",
+            showvalue=False,
+            command=self.change_speed
+        )
+        self.speed_slider.set(200)
+        self.speed_slider.pack()
+
 
         self.canvas.bind("<Button-1>", self.toggle_cell)
 
@@ -128,12 +147,21 @@ class GameOfLifeApp:
         if self.running:
             self.step()
 
-            # Run again after 200 milliseconds
-            self.root.after(200, self.run_game)
+            # Run again after the current speed delay
+            self.root.after(self.speed, self.run_game)
 
     def pause(self):
         # Stop the sim from running.
         self.running = False
+
+    def change_speed(self, value):
+        # Update the simulation speed using the slider value.
+        self.speed = int(value)
+
+        # Update the speed label
+        self.speed_label.config(
+            text="Speed: " + str(self.speed) + " ms"
+        )
 
 root = tk.Tk()
 app = GameOfLifeApp(root)
