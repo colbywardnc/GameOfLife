@@ -9,6 +9,7 @@ class GameOfLifeApp:
 
         self.game = GameOfLife(20, 20)
         self.running = False
+        self.generation = 0
 
         self.canvas = tk.Canvas(
             root,
@@ -44,6 +45,12 @@ class GameOfLifeApp:
             command=self.pause
         )
         self.pause_button.pack()
+
+        self.generation_label = tk.Label(
+            root,
+            text="Generation: 0"
+        )
+        self.generation_label.pack()
 
         self.canvas.bind("<Button-1>", self.toggle_cell)
 
@@ -88,16 +95,26 @@ class GameOfLifeApp:
     def step(self):
         # Move the game forward by one generation
         self.game.next_generation()
+        self.generation += 1
 
         # Update the grid to show the new generation
         self.draw_grid()
 
+        # Update the generation counter
+        self.generation_label.config(
+            text="Generation: " + str(self.generation)
+        )
+
     def reset(self):
         # Create a new empty game board
         self.game = GameOfLife(20,20)
+        self.generation = 0
 
         # Update the grid to show the empty board.
         self.draw_grid()
+        self.generation_label.config(
+            text="Generation: 0"
+        )
 
     def start(self):
         # Start the simulation.
