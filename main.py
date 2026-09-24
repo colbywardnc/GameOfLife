@@ -19,33 +19,36 @@ class GameOfLifeApp:
         )
         self.canvas.pack()
 
+        button_frame = tk.Frame(root)
+        button_frame.pack()
+
         self.step_button = tk.Button(
-            root,
+            button_frame,
             text="Step",
             command=self.step
         )
-        self.step_button.pack()
+        self.step_button.pack(side="left", padx=3)
 
         self.reset_button = tk.Button(
-            root,
+            button_frame,
             text="Reset",
             command=self.reset
         )
-        self.reset_button.pack()
+        self.reset_button.pack(side="left", padx=3)
 
         self.start_button = tk.Button(
-            root,
+            button_frame,
             text="Start",
             command=self.start
         )
-        self.start_button.pack()
+        self.start_button.pack(side="left", padx=3)
 
         self.pause_button = tk.Button(
-            root,
+            button_frame,
             text="Pause",
             command=self.pause
         )
-        self.pause_button.pack()
+        self.pause_button.pack(side="left", padx=3)
 
         self.generation_label = tk.Label(
             root,
